@@ -23,11 +23,11 @@ export type ResponseOptions<T = any> = {
 };
 
 export type ResponseType =
-  | "Created"
-  | "OK"
-  | "BadRequest"
-  | "NotFound"
-  | "Conflict"
-  | "Unauthorized"
-  | "Forbidden"
-  | "InternalServerError";
+  | 'Created'
+  | 'OK'
+  | 'BadRequest'
+  | 'NotFound'
+  | 'Conflict'
+  | 'Unauthorized'
+  | 'Forbidden'
+  | 'InternalServerError';

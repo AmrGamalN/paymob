@@ -55,13 +55,8 @@ export class CarService {
   });
 
   get = warpError(async (id: string): Promise<ResponseOptions> => {
-<<<<<<< Updated upstream
-    const { _index, _source } = await elasticClient.get({
-      index: "cars",
-=======
     const { _source } = await elasticClient.get({
       index: 'cars',
->>>>>>> Stashed changes
       id,
     });
     return serviceResponse({ data: _source });
@@ -117,12 +112,7 @@ export class CarService {
 
     for (const [key, value] of Object.entries(query)) {
       if (skipKeys.includes(key)) continue;
-
-<<<<<<< Updated upstream
-      if (["brand", "model", "name"].includes(key)) {
-=======
       if (['brand', 'model', 'name'].includes(key)) {
->>>>>>> Stashed changes
         mustQueries.push({
           match: {
             [key]: {
@@ -163,12 +153,7 @@ export class CarService {
     return { esQuery, from };
   };
 
-<<<<<<< Updated upstream
-  update = async ({ data, index, id }: ElasticUpdateType) => {
-=======
-
   update = async ({ data, index, id }: ElasticUpdateType): Promise<void> => {
->>>>>>> Stashed changes
     await elasticClient.update({
       index,
       id,
@@ -176,11 +161,7 @@ export class CarService {
     });
   };
 
-<<<<<<< Updated upstream
-  delete = async ({ index, id }: ElasticDeleteType) => {
-=======
   delete = async ({ index, id }: ElasticDeleteType): Promise<void> => {
->>>>>>> Stashed changes
     await elasticClient.delete({
       index,
       id,

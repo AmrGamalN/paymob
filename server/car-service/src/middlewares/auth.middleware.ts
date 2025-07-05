@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 import { CustomError, HandleError } from '@amrogamal/shared-code';
 import { auth } from '../configs/firebase.config';
-import { UserRequestType } from '../types/request.type';
+import { UserToken } from '../types/request.type';
 const { handleError } = HandleError.getInstance();
 
 declare module 'express-serve-static-core' {
   interface Request {
-    curUser?: UserRequestType;
+    curUser?: UserToken;
   }
 }
 
 export class AuthMiddleware {
   private static instance: AuthMiddleware;
-  static getInstance() {
+  static getInstance(): AuthMiddleware {
     if (!AuthMiddleware.instance) {
       AuthMiddleware.instance = new AuthMiddleware();
     }
@@ -20,7 +20,7 @@ export class AuthMiddleware {
   }
 
   authorization = (role: string[]) => {
-    return (req: any, res: any, next: any) => {
+    return (req: Request, res: Response, next: NextFunction): void => {
       if (!req.curUser?.role)
         throw new CustomError('Forbidden', 403, 'Access denied', false);
 
@@ -43,7 +43,12 @@ export class AuthMiddleware {
       const decoded = await auth.verifyIdToken(token);
       if (!decoded)
         throw new CustomError('Unauthorized', 401, 'Unauthorized', false);
-      req.curUser = decoded as any as UserRequestType;
+      req.curUser = {
+        ...decoded,
+        userId: decoded?.userId,
+        role: decoded?.role,
+        lastSeen: new Date(),
+      } as UserToken;
       return next();
     },
   );

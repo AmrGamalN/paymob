@@ -17,7 +17,7 @@ const { warpError } = HandleError.getInstance();
 
 export class CategoryService {
   private static instance: CategoryService;
-  public static getInstance() {
+  public static getInstance(): CategoryService {
     if (!CategoryService.instance) {
       CategoryService.instance = new CategoryService();
     }
@@ -109,7 +109,7 @@ export class CategoryService {
     },
   );
 
-  delete = warpError(async (id: string, key): Promise<ResponseOptions> => {
+  delete = warpError(async (id: string): Promise<ResponseOptions> => {
     const category = await Category.findByIdAndDelete(id);
     if (!category)
       return serviceResponse({

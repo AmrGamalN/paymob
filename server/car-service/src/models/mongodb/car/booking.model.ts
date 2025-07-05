@@ -55,7 +55,7 @@ const BookingSchema = new Schema<ICarBooking>(
     specifiedRentType: {
       type: String,
       validate: {
-        validator: function (value: string) {
+        validator: function (value: string): boolean {
           if (this.rentType === 'other') {
             return !!value && value.trim().length > 0;
           }

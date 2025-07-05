@@ -195,7 +195,7 @@ export const validateObject = ({
   field,
   isOptional,
 }: MainValidationType): ValidationChain => {
-  let validator = body(field)
+  const validator = body(field)
     .isObject()
     .withMessage(`${field} must be an object`);
   return !isOptional
@@ -258,11 +258,11 @@ const buildValidator = (
   location?: LocationType,
 ): ValidationChain => {
   let validator =
-    location == 'query'
+    location === 'query'
       ? query(field)
-      : location == 'param'
+      : location === 'param'
         ? param(field)
-        : location == 'check'
+        : location === 'check'
           ? check(field)
           : body(field);
 

@@ -56,25 +56,16 @@ export const ElasticMappingCar = {
   },
   mappings: {
     properties: {
-<<<<<<< Updated upstream
-      userId: { type: "keyword" },
-      phone: { type: "keyword" },
-      name: { type: "text" },
-      description: { type: "text" },
-      model: { type: "keyword" },
-      brand: { type: "keyword" },
-      year: { type: "integer" },
-      color: { type: "keyword" },
-=======
       userId: { type: 'keyword' },
+      prefix: { type: 'keyword' },
       phone: { type: 'keyword' },
       name: { type: 'text' },
       description: { type: 'text' },
-      model: { type: 'keyword' },
+      carModel: { type: 'keyword' },
       brand: { type: 'keyword' },
       year: { type: 'integer' },
       color: { type: 'keyword' },
->>>>>>> Stashed changes
+      category: { type: 'keyword' },
       images: {
         type: 'nested',
         properties: {
@@ -82,35 +73,31 @@ export const ElasticMappingCar = {
           key: { type: 'keyword' },
         },
       },
-<<<<<<< Updated upstream
-      price: { type: "float" },
-      availableFrom: { type: "date" },
-      availableTo: { type: "date" },
-=======
       price: { type: 'float' },
       availableFrom: { type: 'date' },
       availableTo: { type: 'date' },
->>>>>>> Stashed changes
       location: {
         properties: {
-              lng: { type: 'float' },
-            },
-          },
-      },
-      isAvailable: { type: 'boolean' },
-      guarantees: {
-        properties: {
-          hasInsurance: { type: 'boolean' },
-          insuranceDetails: { type: 'text' },
-          licenseValid: { type: 'boolean' },
-          requiresDeposit: { type: 'boolean' },
-          depositAmount: { type: 'float' },
-          additionalNotes: { type: 'text' },
+          lng: { type: 'float' },
         },
       },
-      createdAt: { type: 'date' },
-      updatedAt: { type: 'date' },
     },
+    isAvailable: { type: 'boolean' },
+    allowNegotiate: { type: 'boolean' },
+    guarantees: {
+      properties: {
+        hasInsurance: { type: 'boolean' },
+        insuranceDetails: { type: 'text' },
+        licenseValid: { type: 'boolean' },
+        requiresDeposit: { type: 'boolean' },
+        depositAmount: { type: 'float' },
+        additionalNotes: { type: 'text' },
+      },
+    },
+    expired_At: { type: 'date' },
+    isExpired: { type: 'boolean' },
+    createdAt: { type: 'date' },
+    updatedAt: { type: 'date' },
   },
 };
 
@@ -128,13 +115,15 @@ export type ElaticCarSettings = {
 export type ElasticCarMappings = {
   properties: {
     userId: { type: 'keyword' };
+    prefix: { type: 'keyword' };
     phone: { type: 'keyword' };
     name: { type: 'text' };
     description: { type: 'text' };
-    model: { type: 'keyword' };
+    carModel: { type: 'keyword' };
     brand: { type: 'keyword' };
     year: { type: 'integer' };
     color: { type: 'keyword' };
+    category: { type: 'keyword' };
     images: {
       type: 'nested';
       properties: {
@@ -147,30 +136,26 @@ export type ElasticCarMappings = {
     availableTo: { type: 'date' };
     location: {
       properties: {
-        city: { type: 'keyword' };
-        address: { type: 'text' };
-        coordinates: {
-          properties: {
-            lat: { type: 'float' };
-            lng: { type: 'float' };
-          };
-        };
+        lng: { type: 'float' };
       };
     };
-    isAvailable: { type: 'boolean' };
-    guarantees: {
-      properties: {
-        hasInsurance: { type: 'boolean' };
-        insuranceDetails: { type: 'text' };
-        licenseValid: { type: 'boolean' };
-        requiresDeposit: { type: 'boolean' };
-        depositAmount: { type: 'float' };
-        additionalNotes: { type: 'text' };
-      };
-    };
-    createdAt: { type: 'date' };
-    updatedAt: { type: 'date' };
   };
+  isAvailable: { type: 'boolean' };
+  allowNegotiate: { type: 'boolean' };
+  guarantees: {
+    properties: {
+      hasInsurance: { type: 'boolean' };
+      insuranceDetails: { type: 'text' };
+      licenseValid: { type: 'boolean' };
+      requiresDeposit: { type: 'boolean' };
+      depositAmount: { type: 'float' };
+      additionalNotes: { type: 'text' };
+    };
+  };
+  expired_At: { type: 'date' };
+  isExpired: { type: 'boolean' };
+  createdAt: { type: 'date' };
+  updatedAt: { type: 'date' };
 };
 
 export type MappingCar = ElaticCarSettings & ElasticCarMappings;

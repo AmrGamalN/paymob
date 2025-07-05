@@ -8,7 +8,7 @@ const parserImage = ['carImages', 'categoryImage'];
 
 export class ParserField {
   private static Instance: ParserField;
-  public static getInstance() {
+  public static getInstance(): ParserField {
     if (!ParserField.Instance) {
       ParserField.Instance = new ParserField();
     }
@@ -54,7 +54,7 @@ export class ParserField {
           else {
             if (!parserImage.includes(field)) req.body[field] = value;
           }
-        } catch (error: any) {
+        } catch (error) {
           if (!hasError) {
             hasError = true;
             logger.error(error);
@@ -81,7 +81,7 @@ export class ParserField {
           const images = req.files as {
             [fieldname: string]: Express.MulterS3.File[];
           };
-          req.body[file] = images[file]?.map((file, index) => ({
+          req.body[file] = images[file]?.map((file) => ({
             url: file.location,
             key: file.key,
           }));

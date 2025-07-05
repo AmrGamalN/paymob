@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "eslint.config.js",
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.30.1",
+    "@typescript-eslint/eslint-plugin": "^8.35.1",
+    "@typescript-eslint/parser": "^8.35.1",
+    "eslint": "^9.30.1",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.35.1"
+  },
+  "scripts": {
+    "lint": "eslint auth-service/src/**/*.{ts,js} car-service/src/**/*.{ts,js} elastic-service/src/**/*.{ts,js} payment-service/src/**/*.{ts,js}",
+    "lint:fix": "eslint 'auth-service/src/**/*.{ts,js}' 'car-service/src/**/*.{ts,js}' 'elastic-service/src/**/*.{ts,js}' 'payment-service/src/**/*.{ts,js}' --fix",
+    "format": "prettier --write '**/*.{ts,js,json,md}'",
+    "check-format": "prettier --check '**/*.{ts,js,json,md}'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

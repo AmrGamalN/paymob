@@ -9,7 +9,7 @@ export class WishlistController {
     this.wishlistService = WishlistService.getInstance();
   }
 
-  public static getInstance() {
+  public static getInstance(): WishlistController {
     if (!WishlistController.instance) {
       WishlistController.instance = new WishlistController();
     }
@@ -49,5 +49,3 @@ export class WishlistController {
     return controllerResponse(res, response);
   };
 }
-
-export const wishlistController = new WishlistController();

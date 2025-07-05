@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import express from 'express';
 import { swaggerDoc } from './configs/swagger.config';
 import { mongodbConnect } from './configs/mongodb.config';
@@ -40,17 +40,12 @@ swaggerDoc(app);
 app.use('/api/v1', routes);
 Promise.all([mongodbConnect()])
   .then(() => {
-    app.use((req: Request, res: Response, next: NextFunction) => {
+    app.use((req: Request, res: Response) => {
       res.status(404).json({ message: 'Page not found' });
     });
     app.use(errorMiddleware());
     app.listen(PORT, () => {
-      console.log(
-        `
-        Server is running on port ${PORT}
-        Swagger is running on: http://localhost:${PORT}/api-docs
-        `,
-      );
+      logger.info(`Server is running on port ${PORT}`);
     });
   })
   .catch((error) => {

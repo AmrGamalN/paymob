@@ -1,9 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ValidationChain, validationResult } from 'express-validator';
 import { HandleError, CustomError } from '@amrogamal/shared-code';
 const { handleError } = HandleError.getInstance();
 
-export const expressValidator = (validators: ValidationChain[]) => {
+export const expressValidator = (
+  validators: ValidationChain[],
+): RequestHandler => {
   return handleError(
     async (
       req: Request,
@@ -22,9 +24,7 @@ export const expressValidator = (validators: ValidationChain[]) => {
             status: 400,
             message: 'Validation failed',
             errors: errors.array().map((err) => ({
-              field: (err as any).path || 'unknown',
-              message: err.msg,
-              type: err.type,
+              err,
             })),
           });
         }

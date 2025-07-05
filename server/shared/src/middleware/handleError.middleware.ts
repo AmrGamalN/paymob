@@ -1,11 +1,11 @@
-import { Request, Response, NextFunction } from "express";
-import { ResponseOptions } from "../types/response.type";
-import { logger } from "../configs/winston.config";
+import { Request, Response, NextFunction } from 'express';
+import { ResponseOptions } from '../types/response.type';
+import { logger } from '../configs/winston.config';
 
 type funcExpress = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => Promise<any> | void;
 type func = (...args: any[]) => Promise<ResponseOptions | void>;
 
@@ -35,8 +35,8 @@ export class HandleError {
       logger.error(`${req.method} ${req.url} - ${err.message}`);
       res.status(err.status || 500).json({
         success: false,
-        message: err.message || "Internal Server Error",
-        error: process.env.NODE_ENV === "development" ? err.stack : undefined,
+        message: err.message || 'Internal Server Error',
+        error: process.env.NODE_ENV === 'development' ? err.stack : undefined,
       });
     };
   };
@@ -53,7 +53,7 @@ export class HandleError {
           success: false,
           status: error.status || 500,
           message:
-            error instanceof Error ? error.message : "Internal Server Error",
+            error instanceof Error ? error.message : 'Internal Server Error',
         };
       }
     }) as T;

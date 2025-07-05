@@ -40,7 +40,7 @@ const swaggerOptions = (route: string): object => {
   };
 };
 
-export const swaggerDoc = (app: Application) => {
+export const swaggerDoc = (app: Application): void => {
   app.use(`/api-docs/:routeName`, swaggerUi.serve);
   app.use(
     '/api-docs/:routeName',

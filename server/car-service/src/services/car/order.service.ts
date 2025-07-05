@@ -12,13 +12,13 @@ import {
   UpdateOrderStatusDtoType,
 } from '../../dtos/car/order.dto';
 import { Car } from '../../models/mongodb/car/car.model';
-import { UserRequestType } from '../../types/request.type';
+import { UserToken } from '../../types/request.type';
 
 const { warpError } = HandleError.getInstance();
 
 export class OrderService {
   private static instance: OrderService;
-  public static getInstance() {
+  public static getInstance(): OrderService {
     if (!OrderService.instance) {
       OrderService.instance = new OrderService();
     }
@@ -28,7 +28,7 @@ export class OrderService {
   create = warpError(
     async (
       data: CreateOrderStatusDtoType,
-      user: UserRequestType,
+      user: UserToken,
     ): Promise<ResponseOptions> => {
       const result = safeParser({ data, userDto: CreateOrderDto });
       if (!result.success) throw result.error;

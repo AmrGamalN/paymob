@@ -29,17 +29,17 @@ export class CarController {
   searchCar = async (req: Request, res: Response): Promise<Response> => {
     const { page, limit, ...query } = req.query;
     const Queries = {
-      name: query.name as string,
-      brand: query.brand as string,
-      carModel: query.model as string,
+      name: query.name,
+      brand: query.brand,
+      carModel: query.model,
       year: Number(query.year),
-      category: query.category as string,
-      isAvailable: query.isAvailable === 'true',
-      allowNegotiate: query.allowNegotiate === 'true',
+      category: query.category,
+      isAvailable: Boolean(query.isAvailable),
+      allowNegotiate: Boolean(query.allowNegotiate),
       minPrice: query.minPrice ? Number(query.minPrice) : undefined,
       maxPrice: query.maxPrice ? Number(query.maxPrice) : undefined,
-      color: query.color as string,
-      city: query.city as string,
+      color: query.color,
+      city: query.city,
       availableFrom: query.availableFrom
         ? new Date(query.availableFrom.toString())
         : undefined,

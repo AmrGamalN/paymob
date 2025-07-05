@@ -1,6 +1,5 @@
 import { Booking, ICarBooking } from '../../models/mongodb/car/booking.model';
 import { Car } from '../../models/mongodb/car/car.model';
-import { UserRequestType } from '../../types/request.type';
 import {
   serviceResponse,
   HandleError,
@@ -14,15 +13,13 @@ import {
   UpdateBookingByRenterDto,
   UpdateBookingByRenterDtoType,
   UpdateBookingByOwnerDto,
-  UpdateBookingByOwnerDtoType,
 } from '../../dtos/car/booking.dto';
-
 const { warpError } = HandleError.getInstance();
 
 export class BookingService {
   private static instance: BookingService;
 
-  public static getInstance() {
+  public static getInstance(): BookingService {
     if (!BookingService.instance)
       BookingService.instance = new BookingService();
     return BookingService.instance;
@@ -132,9 +129,8 @@ export class BookingService {
 
       const allowedFields = Object.keys(UpdateBookingByRenterDto.shape);
       for (const key of allowedFields) {
-        if (key in result.data) {
-          // @ts-ignore
-          booking[key] = result.data[key];
+        if (key in result.data && result.data[key] !== undefined) {
+          booking.set(key, result.data[key]);
         }
       }
 

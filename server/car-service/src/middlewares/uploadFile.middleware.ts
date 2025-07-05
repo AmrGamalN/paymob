@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
-import multer, { MulterError } from 'multer';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
+import multer, { MulterError, Options } from 'multer';
 import multerS3 from 'multer-s3';
 import { v4 as uuidv4 } from 'uuid';
 import { s3Client } from '../configs/s3Bucket.config';
-import { HandleError } from '@amrogamal/shared-code';
+import { HandleError, logger } from '@amrogamal/shared-code';
 import { FileFilterCallback } from 'multer';
 const { handleError } = HandleError.getInstance();
 
@@ -19,21 +19,21 @@ declare global {
 
 export class UploadFile {
   private static Instance: UploadFile;
-  public static getInstance() {
+  public static getInstance(): UploadFile {
     if (!UploadFile.Instance) {
       UploadFile.Instance = new UploadFile();
     }
     return UploadFile.Instance;
   }
 
-  private callbackFunction = () => {
+  private callbackFunction = (): Options => {
     const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     return {
       fileFilter: (
         req: Request,
         file: Express.Multer.File,
         cb: FileFilterCallback,
-      ) => {
+      ): void => {
         if (allowedMimeTypes.includes(file.mimetype)) {
           cb(null, true);
         } else {
@@ -78,9 +78,9 @@ export class UploadFile {
   });
 
   private uploadFile =
-    (uploadMiddleware: any) =>
+    (uploadMiddleware: RequestHandler): RequestHandler =>
     (req: Request, res: Response, next: NextFunction) => {
-      uploadMiddleware(req, res, (err: any) => {
+      uploadMiddleware(req, res, (err: unknown) => {
         if (!err) return next();
 
         const status = err instanceof MulterError ? 400 : 500;
@@ -89,38 +89,38 @@ export class UploadFile {
             ? `File upload error: ${err.message}`
             : `Unknown file upload error`;
 
+        logger.error(err);
         res.status(status).json({
           success: false,
           message,
-          error: err.message,
+          error: err,
         });
       });
     };
 
-  // PrefixType
   prefixType = (prefixType: string) => {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (req: Request, res: Response, next: NextFunction): void => {
       req.prefixType = prefixType;
       next();
     };
   };
 
-  // Upload List of images by MulterS3
-  uploadListMulterS3Images = (name: string, maxCount: number) => {
+  uploadListMulterS3Images = (
+    name: string,
+    maxCount: number,
+  ): RequestHandler => {
     return handleError(
       this.uploadFile(this.uploadMulterS3.fields([{ name, maxCount }])),
     );
   };
 
-  // Upload List of images by Multer
-  uploadListMulterImages = (name: string, maxCount: number) => {
+  uploadListMulterImages = (name: string, maxCount: number): RequestHandler => {
     return handleError(
       this.uploadFile(this.uploadMulter.fields([{ name, maxCount }])),
     );
   };
 
-  // Upload single of images by Multer
-  uploadSingleMulterImages = (name: string) => {
+  uploadSingleMulterImages = (name: string): RequestHandler => {
     return handleError(this.uploadFile(this.uploadMulter.single(name)));
   };
 }

@@ -12,7 +12,7 @@ export class S3Service {
   private static instance: S3Service;
   private constructor() {}
 
-  public static getInstance() {
+  public static getInstance(): S3Service {
     if (!S3Service.instance) {
       this.instance = new S3Service();
     }
@@ -44,7 +44,7 @@ export class S3Service {
     prefix: string,
     deleteCount: number,
     uploadCount: number,
-  ) => {
+  ): Promise<void> => {
     const currentCount = await this.countImages(prefix);
     const newTotal = currentCount - deleteCount + uploadCount;
     if (newTotal > 5) {
@@ -71,7 +71,7 @@ export class S3Service {
     files: { [fieldname: string]: Express.Multer.File[] },
     prefix: string,
     keys?: string[],
-  ) => {
+  ): Promise<{ url: string; key: string }[]> => {
     const uploadPromises = files['carImages'].map(
       async (file: Express.Multer.File, index: number) => {
         const key = keys

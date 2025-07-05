@@ -16,7 +16,7 @@ const { warpError } = HandleError.getInstance();
 
 export class WishlistService {
   private static instance: WishlistService;
-  public static getInstance() {
+  public static getInstance(): WishlistService {
     if (!WishlistService.instance) {
       WishlistService.instance = new WishlistService();
     }

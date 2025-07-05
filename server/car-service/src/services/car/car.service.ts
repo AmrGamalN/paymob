@@ -14,6 +14,7 @@ import {
 } from '../../dtos/car/car.dto';
 import { sendCarEvent } from '../../kafka/producers/car.producer';
 import { S3Service } from '../s3/s3.service';
+import { CarImage } from '../../types/car.type';
 const s3Service = S3Service.getInstance();
 const { warpError } = HandleError.getInstance();
 
@@ -21,7 +22,7 @@ export class CarService {
   private static instance: CarService;
   private constructor() {}
 
-  public static getInstance() {
+  public static getInstance(): CarService {
     if (!CarService.instance) {
       this.instance = new CarService();
     }
@@ -30,7 +31,7 @@ export class CarService {
 
   private updateCarInDatabase = async (
     _id: string,
-    data: any,
+    data: UpdateCarDtoType,
   ): Promise<ResponseOptions> => {
     const car = await Car.findOneAndUpdate({ _id }, { $set: data });
     if (!car)
@@ -165,7 +166,7 @@ export class CarService {
           message: 'Car image not found',
         });
 
-      if (keys.length == car.carImages.length)
+      if (keys.length === car.carImages.length)
         return serviceResponse({
           statusText: 'Conflict',
           message:
@@ -173,7 +174,7 @@ export class CarService {
         });
 
       car.carImages = car.carImages.filter(
-        (image: any) => !keys.includes(image.key),
+        (image: CarImage) => !keys.includes(image.key),
       );
       await Promise.all([car.save(), s3Service.deleteMultiImages(keys)]);
       return serviceResponse({

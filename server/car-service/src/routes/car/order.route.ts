@@ -21,27 +21,27 @@ const authentication = [
 
 router.post(
   '/',
-  // authentication,
+  authentication,
   expressValidator(validateCreateOrder()),
   handleError(controller.create.bind(controller)),
 );
 
 router.get(
   '/',
-  // authentication,
+  authentication,
   handleError(controller.getAll.bind(controller)),
 );
 
 router.get(
   '/:id',
-  // authentication,
+  authentication,
   requiredId(),
   handleError(controller.getById.bind(controller)),
 );
 
 router.put(
   '/:id',
-  // authentication,
+  authentication,
   requiredId(),
   expressValidator(validateUpdateOrder()),
   handleError(controller.updateStatus.bind(controller)),
@@ -49,7 +49,7 @@ router.put(
 
 router.delete(
   '/:id',
-  // authentication,
+  authentication,
   requiredId(),
   handleError(controller.delete.bind(controller)),
 );

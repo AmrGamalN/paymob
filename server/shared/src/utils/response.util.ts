@@ -1,9 +1,9 @@
-import { Response } from "express";
-import { ResponseOptions } from "../types/response.type";
+import { Response } from 'express';
+import { ResponseOptions } from '../types/response.type';
 
 export const controllerResponse = (
   res: Response,
-  response: ResponseOptions
+  response: ResponseOptions,
 ) => {
   if (!response.success) return res.status(response.status!).json(response);
   return res.status(response.status!).json(response);
@@ -19,28 +19,28 @@ export const serviceResponse = ({
   updatedCount,
 }: ResponseOptions): ResponseOptions => {
   switch (statusText) {
-    case "BadRequest":
+    case 'BadRequest':
       return response({ statusText, message, error });
 
-    case "Conflict":
-    case "Created":
-    case "NotFound":
-    case "Unauthorized":
-    case "InternalServerError":
+    case 'Conflict':
+    case 'Created':
+    case 'NotFound':
+    case 'Unauthorized':
+    case 'InternalServerError':
       return response({ statusText, message, data });
 
-    case "OK":
+    case 'OK':
     default:
-      if (statusText == "OK" || data || count || deletedCount || updatedCount)
+      if (statusText == 'OK' || data || count || deletedCount || updatedCount)
         return response({
-          statusText: "OK",
+          statusText: 'OK',
           message,
           data,
           count,
           deletedCount,
           updatedCount,
         });
-      return response({ statusText: "NotFound", message });
+      return response({ statusText: 'NotFound', message });
   }
 };
 
@@ -54,28 +54,28 @@ const response = ({
   updatedCount,
 }: ResponseOptions): ResponseOptions => {
   const defaultMessages = {
-    OK: "Operation successfully",
-    Created: "Resource created successfully",
-    BadRequest: "Bad request",
-    NotFound: "Item not found",
-    Conflict: "Item already exists",
-    Unauthorized: "Unauthorized",
-    InternalServerError: "Internal server error",
+    OK: 'Operation successfully',
+    Created: 'Resource created successfully',
+    BadRequest: 'Bad request',
+    NotFound: 'Item not found',
+    Conflict: 'Item already exists',
+    Unauthorized: 'Unauthorized',
+    InternalServerError: 'Internal server error',
   };
 
   switch (statusText) {
-    case "Created":
+    case 'Created':
       return {
-        statusText: "Created",
+        statusText: 'Created',
         success: true,
         status: 201,
         message: message ?? defaultMessages.Created,
         data,
       };
 
-    case "OK":
+    case 'OK':
       return {
-        statusText: "OK",
+        statusText: 'OK',
         success: true,
         status: 200,
         message: message ?? defaultMessages.OK,
@@ -85,40 +85,40 @@ const response = ({
         updatedCount,
       };
 
-    case "BadRequest":
+    case 'BadRequest':
       return {
-        statusText: "BadRequest",
+        statusText: 'BadRequest',
         success: false,
         status: 400,
         message: message ?? defaultMessages.BadRequest,
         error,
       };
 
-    case "NotFound":
+    case 'NotFound':
       return {
-        statusText: "NotFound",
+        statusText: 'NotFound',
         success: false,
         status: 404,
         message: message ?? defaultMessages.NotFound,
       };
 
-    case "Conflict":
+    case 'Conflict':
       return {
-        statusText: "Conflict",
+        statusText: 'Conflict',
         success: false,
         status: 409,
         message: message ?? defaultMessages.Conflict,
       };
-    case "Unauthorized":
+    case 'Unauthorized':
       return {
-        statusText: "Unauthorized",
+        statusText: 'Unauthorized',
         success: false,
         status: 401,
         message: message ?? defaultMessages.Unauthorized,
       };
-    case "InternalServerError":
+    case 'InternalServerError':
       return {
-        statusText: "InternalServerError",
+        statusText: 'InternalServerError',
         success: false,
         status: 500,
         message: message ?? defaultMessages.InternalServerError,
@@ -129,7 +129,7 @@ const response = ({
       return {
         success: false,
         status: 500,
-        message: "Internal server error",
+        message: 'Internal server error',
       };
   }
 };

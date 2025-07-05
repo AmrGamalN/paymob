@@ -4,13 +4,13 @@ import { controllerResponse } from '@amrogamal/shared-code';
 
 export class BookingController {
   private static instance: BookingController;
-  public static getInstance() {
+  public static getInstance(): BookingController {
     if (!BookingController.instance)
       BookingController.instance = new BookingController();
     return BookingController.instance;
   }
 
-  create = async (req: Request, res: Response) => {
+  create = async (req: Request, res: Response): Promise<Response> => {
     const result = await BookingService.getInstance().create(
       req.body,
       String(req.curUser?.userId),
@@ -18,7 +18,7 @@ export class BookingController {
     return controllerResponse(res, result);
   };
 
-  getAll = async (req: Request, res: Response) => {
+  getAll = async (req: Request, res: Response): Promise<Response> => {
     const { page = 1, limit = 10 } = req.query;
     const result = await BookingService.getInstance().getAll(
       String(req.curUser?.userId),
@@ -28,7 +28,7 @@ export class BookingController {
     return controllerResponse(res, result);
   };
 
-  get = async (req: Request, res: Response) => {
+  get = async (req: Request, res: Response): Promise<Response> => {
     const result = await BookingService.getInstance().get(
       req.params.id,
       String(req.curUser?.userId),
@@ -36,7 +36,7 @@ export class BookingController {
     return controllerResponse(res, result);
   };
 
-  updateByRenter = async (req: Request, res: Response) => {
+  updateByRenter = async (req: Request, res: Response): Promise<Response> => {
     const result = await BookingService.getInstance().updateByRenter(
       req.params.id,
       String(req.curUser?.userId),
@@ -45,7 +45,7 @@ export class BookingController {
     return controllerResponse(res, result);
   };
 
-  updateStatus = async (req: Request, res: Response) => {
+  updateStatus = async (req: Request, res: Response): Promise<Response> => {
     const result = await BookingService.getInstance().updateStatus(
       req.params.id,
       String(req.curUser?.userId),
@@ -54,7 +54,7 @@ export class BookingController {
     return controllerResponse(res, result);
   };
 
-  delete = async (req: Request, res: Response) => {
+  delete = async (req: Request, res: Response): Promise<Response> => {
     const result = await BookingService.getInstance().delete(
       req.params.id,
       String(req.curUser?.userId),

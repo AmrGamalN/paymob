@@ -6,3 +6,4 @@ Common utilities for microservices.
 
 ```bash
 npm install @amrgamal/common
+```
